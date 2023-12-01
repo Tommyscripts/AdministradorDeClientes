@@ -1,0 +1,12 @@
+{
+  "clientes": [
+    {
+      "nombre": "Gato ",
+      "empresa": "Peludos al poder",
+      "email": "peludos@alpoder.com",
+      "telefono": "655444333",
+      "notas": "Los gatos son hermosos",
+      "id": 1
+    }
+  ]
+}
