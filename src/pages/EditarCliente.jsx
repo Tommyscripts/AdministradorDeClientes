@@ -1,9 +1,19 @@
-import { useNavigate, Form, useActionData, redirect } from 'react-router-dom'
+import { Form, useNavigate, useLoaderData, useActionData, redirect } from 'react-router-dom'
+import { obtenerCliente, actualizarCliente } from '../data/Clientes'
 import Formulario from '../components/Formulario'
 import Errores from '../components/Errores'
-import {agregarCliente} from '../data/Clientes'
 
-export async function action({ request }) {
+export async function loader({ params }) {
+  const cliente = await obtenerCliente(params.clienteId)
+  if (Object.values(cliente).length === 0) {
+    throw new Response('', {
+      status: 404,
+      statusText: 'No hay resultados'
+    })
+  }
+  return cliente
+}
+export async function action({ request, params }) {
   const formData = await request.formData()
   const datos = Object.fromEntries(formData)
   const email = formData.get('email')
@@ -18,19 +28,19 @@ export async function action({ request }) {
   if (Object.keys(errores).length) {
     return errores
   }
- await agregarCliente(datos)
- return redirect('/')
+  await actualizarCliente(params.clienteId, datos)
+  return redirect('/')
 }
 
-const NuevoCliente = () => {
-
+function EditarCliente() {
   const navigate = useNavigate()
+  const cliente = useLoaderData()
   const errores = useActionData()
 
   return (
     <>
-      <h1 className='font-black text-4xl text-blue-900'> Nuevo Cliente</h1>
-      <p className='mt-3'>Llena todos los campos para registrar un nuevo cliente</p>
+      <h1 className='font-black text-4xl text-blue-900'> Editar Cliente</h1>
+      <p className='mt-3'>Llena todos los campos para editar al cliente</p>
 
       <div className="flex justify-end">
         <button
@@ -46,11 +56,13 @@ const NuevoCliente = () => {
           method='post'
           noValidate
         >
-          <Formulario />
+          <Formulario
+            cliente={cliente}
+          />
           <input
             type="submit"
             className='mt-5 w-full bg-blue-800 uppercase p-3  font-bold text-white text-lg'
-            value="Registrar cliente"
+            value="Guardar Cambios"
           />
         </Form>
       </div>
@@ -58,4 +70,4 @@ const NuevoCliente = () => {
   )
 }
 
-export default NuevoCliente
+export default EditarCliente
