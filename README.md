@@ -1,8 +1,40 @@
-# React + Vite
+# Administrador de Clientes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación React + Vite para administrar clientes.  
+Este proyecto funciona **100% en local**, guardando datos en `localStorage` del navegador (sin backend).
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js 18+
+- npm
+
+## Instalación
+
+```bash
+npm install
+```
+
+> Este proyecto usa **npm** (lockfile: `package-lock.json`).  
+> Evita mezclar `pnpm` y `npm` en el mismo workspace para no romper `node_modules`.
+
+## Ejecutar en desarrollo
+
+Inicia el frontend:
+
+```bash
+npm run dev
+```
+
+## Datos locales
+
+Los registros se guardan en `localStorage` con la clave `clientes`.
+Si quieres reiniciar datos, elimina esa clave desde DevTools (Application/Storage).
+
+## Si ya corriste `pnpm install` y falló
+
+Limpia el estado mezclado y vuelve a instalar con npm:
+
+```bash
+rm -rf node_modules pnpm-lock.yaml pnpm-workspace.yaml
+npm install
+```
